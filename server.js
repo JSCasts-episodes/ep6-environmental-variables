@@ -1,6 +1,13 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 const mongoose = require('mongoose')
 const express = require('express')
 const bodyParser = require('body-parser')
+
+const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/ep1'
+const PORT = process.env.PORT || 3000
 
 const app = express()
 app.use(bodyParser.json())
@@ -24,11 +31,11 @@ app.post('/users', async (req, res) => {
 })
 
 const run = async () => {
-  await mongoose.connect('mongodb://localhost:27017/ep1', {
+  await mongoose.connect(MONGO_URL, {
     useNewUrlParser: true
   })
-  await app.listen(3000, () => {
-    console.log('Example app listening on port 3000!')
+  await app.listen(PORT, () => {
+    console.log(`Example app listening on port ${PORT}!`)
   })
 }
 
